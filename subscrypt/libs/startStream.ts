@@ -10,6 +10,7 @@ import {
 import approveTokens from "./approveTokens";
 import upgradeTokens from "./upgradeTokens";
 import fUSDCABI from "@/abi/fUSDC_ABI.json";
+import GOERLI_ETH_ABI from "@/abi/GOERLI_ETH_ABI.json";
 import { SUBSCRIPTION_OPTIONS } from "@/constants/subscriptions";
 import sendNotification from "./sendNotification";
 
@@ -26,7 +27,7 @@ export default async function startStream(
 ): Promise<boolean> {
   const fusdc = new ethers.Contract(
     CHAIN_ID === 5 ? ETHER_GOERLI : FAKE_USDC_MUMBAI,
-    fUSDCABI,
+    CHAIN_ID === 5 ? fUSDCABI : GOERLI_ETH_ABI,
     signer
   );
   const usdcx = await sf.loadSuperToken(CHAIN_ID === 5 ? "ETHx" : "fUSDCx");
@@ -71,6 +72,7 @@ export default async function startStream(
     // Check if the user has enough fUSDCx tokens
     if (Number(fUSDCx) < totalAmountInfUSDC) {
       const difference = totalAmountInfUSDC - Number(fUSDCx);
+      console.log(difference, "difference");
       const hasUpgraded = await upgradeTokens(difference, signer, sf);
 
       if (!hasUpgraded) {

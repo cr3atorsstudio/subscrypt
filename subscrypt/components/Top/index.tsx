@@ -32,6 +32,8 @@ import { Framework } from "@superfluid-finance/sdk-core";
 import {
   FAKE_USDC_SUPER_MUMBAI,
   FAKE_USDC_MUMBAI,
+  ETHER_SUPER_GOERLI,
+  ETHER_GOERLI,
 } from "@/constants/contractAddresses";
 import { SUBSCRIPTION_OPTIONS } from "@/constants/subscriptions";
 import CardInfoModal from "../Common/CardInfoModal";
@@ -67,12 +69,12 @@ const Top = () => {
   const { address } = useAccount();
   const { data: fUSDCx } = useBalance({
     address: address,
-    token: FAKE_USDC_SUPER_MUMBAI,
+    token: CHAIN_ID === 5 ? ETHER_SUPER_GOERLI : FAKE_USDC_SUPER_MUMBAI,
     watch: true,
   });
   const { data: fUSDC } = useBalance({
     address: address,
-    token: FAKE_USDC_MUMBAI,
+    token: CHAIN_ID === 5 ? ETHER_GOERLI : FAKE_USDC_MUMBAI,
     watch: true,
   });
 

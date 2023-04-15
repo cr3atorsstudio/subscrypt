@@ -28,7 +28,7 @@ export default async function upgradeTokens(
       `Congrats - you've just upgraded your tokens to an Index!
          Network: ${CHAIN_ID === 5 ? "Goerli" : "Munbai"}
          Super Token: ${CHAIN_ID === 5 ? "ETHx" : "USDCx"}
-         Amount: ${amount}         
+         Amount: ${amount}
       `
     );
 

@@ -45,7 +45,7 @@ const SubsCryptCard: FC<SubsCryptCardProps> = (props) => {
           <Text className={inter.className} fontSize="16px">
             {selectedSubscriptionPlanCost}
             <Text as="span" fontSize="10px" pl="2px" pr="4px">
-              USD
+              {isEth ? "ETH " : "USDC"}
             </Text>
             × {month}
             <Text as="span" fontSize="12px" pl="4px">

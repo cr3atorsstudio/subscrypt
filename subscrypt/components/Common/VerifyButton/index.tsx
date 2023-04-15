@@ -36,6 +36,7 @@ const VerifyButton: FC<VerifyButtonProps> = (props) => {
           <Button
             size={isMenu ? "xs" : "lg"}
             borderRadius={isMenu ? "3px" : undefined}
+            maxWidth={isMenu ? "140px" : undefined}
             width={"100%"}
             colorScheme="brand"
             onClick={open}

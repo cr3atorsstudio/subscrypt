@@ -19,7 +19,7 @@ const ConnectWalletModal: FC = () => {
   const [isNotMetamask, setIsNotMetamask] = useState(false);
   const { connect, connectors, isLoading, pendingConnector } = useConnect();
 
-  const isMobile = useMediaQuery(`(max-width: 375px)`)[0];
+  const isMobile = useMediaQuery(`(max-width: 400px)`)[0];
 
   useEffect(() => {
     setIsNotMetamask(!window?.ethereum?.isMetaMask);
@@ -28,14 +28,6 @@ const ConnectWalletModal: FC = () => {
   const onClose = () => {
     setIsWalletConnectModalOpen(false);
   };
-
-  // @ts-ignore
-  useEffect(() => {
-    if (!window.ethereum) {
-      console.log("No Metamask");
-      return null;
-    }
-  }, []);
 
   return (
     <>
@@ -69,7 +61,7 @@ const ConnectWalletModal: FC = () => {
                     " (connecting)"}
                 </Button>
               ))}
-              {isMobile && (
+              {isMobile && isNotMetamask && (
                 <Box>
                   <p style={{ textAlign: "center", marginBottom: 16 }}>or</p>
                   <Button

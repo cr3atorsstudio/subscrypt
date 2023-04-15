@@ -225,3 +225,7 @@ export const SUBSCRIPTION_OPTIONS = [
     receiver: "0xEbAD23F8AB1154AB36Cc5D3f9Bad7558081a09b0",
   },
 ];
+
+export const SUBSCRIPTION_RECEIVERS = SUBSCRIPTION_OPTIONS.map((option) =>
+  option.receiver.toLowerCase()
+);

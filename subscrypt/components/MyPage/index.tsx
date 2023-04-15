@@ -31,6 +31,7 @@ const MyPage: FC = () => {
   const { data: signer } = useSigner();
 
   const getData = async () => {
+    if (!isConnected || !signer || !provider) return;
     setLoading(true);
     const sf = await Framework.create({
       chainId: CHAIN_ID,
@@ -56,7 +57,6 @@ const MyPage: FC = () => {
   };
 
   useEffect(() => {
-    if (!isConnected || !signer || !provider) return;
     getData();
   }, [isConnected, provider, signer, router.asPath, toast]);
 

@@ -1,0 +1,3 @@
+const CHANNEL_PRIVATE_KEY = process.env.NEXT_PUBLIC_SECRET_KEY;
+
+export default CHANNEL_PRIVATE_KEY;

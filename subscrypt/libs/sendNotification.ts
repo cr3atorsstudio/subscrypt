@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import * as PushAPI from "@pushprotocol/restapi";
+import CHANNEL_PRIVATE_KEY from "@/constants/pushProtocol";
 
 export default async function sendNotification(
   recipientAddress: string,
@@ -9,7 +10,7 @@ export default async function sendNotification(
   }
 ) {
   try {
-    const PK = process.env.SECRET_KEY; // channel private key
+    const PK = CHANNEL_PRIVATE_KEY; // channel private key
     const Pkey = `0x${PK}`;
     const _signer = new ethers.Wallet(Pkey);
 
@@ -18,8 +19,8 @@ export default async function sendNotification(
       type: 3, // target
       identityType: 2, // direct payload
       notification: {
-        title: messsage.title,
-        body: messsage.body,
+        title: "Subscrypt",
+        body: "You have a new message",
       },
       payload: {
         title: messsage.title,

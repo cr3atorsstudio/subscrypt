@@ -3,6 +3,7 @@ import { Framework } from "@superfluid-finance/sdk-core";
 import sendNotification from "./sendNotification";
 
 export default async function cancelStream(
+  receiver: string,
   signer: Signer,
   sf: Framework
 ): Promise<boolean> {
@@ -12,7 +13,7 @@ export default async function cancelStream(
   try {
     const deleteFlowOperation = usdcx.deleteFlow({
       sender: sender,
-      receiver: process.env.NEXT_PUBLIC_RECEIVER_WALLET_ADDRESS || "",
+      receiver: receiver,
     });
 
     console.log(deleteFlowOperation);

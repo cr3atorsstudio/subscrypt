@@ -1,25 +1,30 @@
-import { Signer } from "ethers";
-import { Framework } from "@superfluid-finance/sdk-core";
+import { Signer, utils } from "ethers";
+import { Framework, IStream } from "@superfluid-finance/sdk-core";
+import {
+  SUBSCRIPTION_OPTIONS,
+  SUBSCRIPTION_RECEIVERS,
+} from "@/constants/subscriptions";
 
 export default async function getStreams(
   signer: Signer,
   sf: Framework
-): Promise<boolean> {
+): Promise<null | IStream[]> {
   const usdcx = await sf.loadSuperToken("fUSDCx");
   const sender = await signer.getAddress();
 
   try {
-    const flow = await usdcx.getFlow({
+    const result = await sf.query.listStreams({
       sender: sender,
-      receiver: process.env.NEXT_PUBLIC_RECEIVER_WALLET_ADDRESS || "",
-      providerOrSigner: signer,
+      token: usdcx.address,
     });
-      console.log(flow, ">>>");
-      
-      // Return boolean for now, but we will return the flow object later
-      return true
+    console.log("result", result.data);
+    return result.data
+      .filter((element) => {
+        return SUBSCRIPTION_RECEIVERS.includes(element.receiver.toLowerCase());
+      })
+      .filter((element) => element.currentFlowRate !== "0");
   } catch (error) {
     console.error("Error getting stream info:", error);
-    return false
+    return null;
   }
 }

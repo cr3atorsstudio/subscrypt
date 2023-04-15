@@ -66,18 +66,16 @@ const Top = () => {
   const provider = useProvider();
   const { data: signer } = useSigner();
   const { address } = useAccount();
-  const { data: fUSDCx } = useBalance({
+  const { data: superTokenBalance } = useBalance({
     address: address,
     token: CHAIN_ID === 5 ? ETHER_SUPER_GOERLI : FAKE_USDC_SUPER_MUMBAI,
     watch: true,
   });
-  const { data: fUSDC } = useBalance({
+  const { data: tokenBalance } = useBalance({
     address: address,
     token: CHAIN_ID === 5 ? ETHER_GOERLI : FAKE_USDC_MUMBAI,
     watch: true,
   });
-
-  console.log(fUSDCx, fUSDC);
 
   const selectedSubscriptionName =
     selectedSubscription === 0
@@ -129,7 +127,7 @@ const Top = () => {
         selectedSubscriptionPlanCostInCrypto,
         superSigner,
         sf,
-        fUSDCx?.formatted || "0"
+        superTokenBalance?.formatted || "0"
       );
 
       if (response) {

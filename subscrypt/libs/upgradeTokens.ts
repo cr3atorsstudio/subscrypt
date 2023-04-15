@@ -8,13 +8,13 @@ export default async function upgradeTokens(
   signer: Signer,
   sf: Framework
 ): Promise<boolean> {
-  const usdcx = await sf.loadSuperToken(CHAIN_ID === 5 ? "ETHx" : "fUSDCx");
-
-  console.log("amount", Math.ceil(amount));
+  const superToken = await sf.loadSuperToken(
+    CHAIN_ID === 5 ? "ETHx" : "fUSDCx"
+  );
 
   try {
     // @ts-ignore
-    const upgradeOperation = usdcx.upgrade({
+    const upgradeOperation = superToken.upgrade({
       amount: ethers.utils.parseEther(Math.ceil(amount).toString()),
     });
 

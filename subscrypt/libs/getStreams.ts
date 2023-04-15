@@ -19,7 +19,6 @@ export default async function getStreams(
       sender: sender,
       token: usdcx.address,
     });
-    console.log("result", result.data);
     return result.data
       .filter((element) => {
         return SUBSCRIPTION_RECEIVERS.includes(element.receiver.toLowerCase());

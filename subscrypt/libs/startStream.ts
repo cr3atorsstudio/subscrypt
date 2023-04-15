@@ -30,12 +30,14 @@ export default async function startStream(
     CHAIN_ID === 5 ? fUSDCABI : GOERLI_ETH_ABI,
     signer
   );
-  const usdcx = await sf.loadSuperToken(CHAIN_ID === 5 ? "ETHx" : "fUSDCx");
+  const superToken = await sf.loadSuperToken(
+    CHAIN_ID === 5 ? "ETHx" : "fUSDCx"
+  );
   const sender = await signer.getAddress();
 
   // TOOD: Use months and amount from UI input
-  // const flowRatePerSec = calculateFlow(months, amount.toString());
-  const flowRatePerSec = calculateFlow(1, "1");
+  const flowRatePerSec = calculateFlow(months, amount);
+  // const flowRatePerSec = calculateFlow(1, "1");
   console.log(flowRatePerSec, "flowRatePerSec");
 
   try {
@@ -50,9 +52,6 @@ export default async function startStream(
       18
     );
 
-    console.log(totalAmountInfUSDC, "totalAmountInfUSDC");
-    console.log(convertedAllowanceInfUSDC, "convertedAllowanceInfUSDC");
-
     // Check if the user has approved the fUSDCx contract to spend their fUSDC
     if (
       totalAmountInfUSDC > Number(convertedAllowanceInfUSDC) &&
@@ -60,14 +59,10 @@ export default async function startStream(
     ) {
       const hasApproved = await approveTokens(totalAmountInfUSDC, signer);
 
-      console.log(hasApproved, "hasApproved");
-
       if (!hasApproved) {
         return false;
       }
     }
-
-    console.log(Number(fUSDCx), totalAmountInfUSDC, "amounts");
 
     // Check if the user has enough fUSDCx tokens
     if (Number(fUSDCx) < totalAmountInfUSDC) {
@@ -87,7 +82,7 @@ export default async function startStream(
     );
 
     // Create the stream
-    const createFlowOperation = usdcx.createFlow({
+    const createFlowOperation = superToken.createFlow({
       sender: sender,
       receiver: SUBSCRIPTION_OPTIONS[selectedSubscriptionId].receiver,
       flowRate: flowRatePerSec.toString(),

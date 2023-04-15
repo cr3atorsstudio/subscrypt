@@ -18,7 +18,6 @@ export default async function cancelStream(
       receiver: receiver,
     });
 
-    console.log(deleteFlowOperation);
     console.log("Cancelling your stream...");
 
     const tx = await deleteFlowOperation.exec(signer);

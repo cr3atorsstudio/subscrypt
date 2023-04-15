@@ -40,7 +40,6 @@ const MyPage: FC = () => {
     const superSigner = sf.createSigner({ signer: signer });
 
     const response = await getStreams(superSigner, sf);
-    console.log(response);
     if (!!response) {
       setStreamList(response);
       setLoading(false);
@@ -71,7 +70,6 @@ const MyPage: FC = () => {
     const superSigner = sf.createSigner({ signer: signer });
 
     const response = await cancelStream(address, superSigner, sf);
-    console.log(response);
     if (response) {
       toast({
         title: "Success",
@@ -151,7 +149,6 @@ const MyPage: FC = () => {
                       ["uint256", "uint256", "uint256", "string"],
                       stream.flowUpdatedEvents[0].userData
                     );
-                    console.log(decodeData);
                     const subsc = SUBSCRIPTION_OPTIONS.find(
                       (option) => option.id === Number(decodeData[0])
                     );

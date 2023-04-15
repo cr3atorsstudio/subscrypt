@@ -1,5 +1,5 @@
 import { Signer, ethers } from "ethers";
-import fUSDCABI from "@/abi/fUSDC_ABI.json";
+import abi from "@/abi/fUSDC_ABI.json";
 import {
   ETHER_GOERLI,
   ETHER_SUPER_GOERLI,
@@ -13,24 +13,24 @@ export default async function approveTokens(
   amount: number,
   signer: Signer
 ): Promise<boolean> {
-  const USDC = new ethers.Contract(
+  const token = new ethers.Contract(
     CHAIN_ID === 5 ? ETHER_GOERLI : FAKE_USDC_MUMBAI,
-    fUSDCABI,
+    abi,
     signer
   );
 
   try {
-    console.log("approving fUSDC spend");
-    const tx = await USDC.approve(
+    console.log("approving token spend");
+    const tx = await token.approve(
       CHAIN_ID === 5 ? ETHER_SUPER_GOERLI : FAKE_USDC_SUPER_MUMBAI,
       ethers.utils.parseEther(amount.toString())
     );
     await tx.wait();
-    console.log("fUSDC spend approved");
+    console.log("token spend approved");
     return true;
   } catch (error) {
     console.log(
-      "Something went wrong while approving your fUSDC spend. Please try again."
+      "Something went wrong while approving your token spend. Please try again."
     );
     console.error(error);
     return false;

@@ -33,8 +33,6 @@ export default async function sendNotification(
       // @ts-ignore
       env: "staging",
     });
-
-    console.log(apiResponse, ">>>");
   } catch (err) {
     console.error("Error: ", err);
   }

@@ -18,7 +18,6 @@ const VerifyButton: FC<VerifyButtonProps> = (props) => {
   );
 
   const onSuccess = (result: ISuccessResult) => {
-    console.log(result);
     setProof(result.proof);
   };
   return (

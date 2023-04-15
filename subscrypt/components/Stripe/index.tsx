@@ -8,6 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
+// @ts-ignore
 import { SafeOnRampKit, SafeOnRampProviderType } from "@safe-global/onramp-kit";
 import { FC, memo, useState } from "react";
 import AppMenu from "../Common/AppMenu";

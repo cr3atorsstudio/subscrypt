@@ -1,5 +1,5 @@
 import calculateFlow from "./calculateFlow";
-import { BigNumberish, Signer, ethers } from "ethers";
+import { BigNumberish, Signer, ethers, utils } from "ethers";
 import { Framework } from "@superfluid-finance/sdk-core";
 import {
   FAKE_USDC_MUMBAI,
@@ -8,9 +8,12 @@ import {
 import approveTokens from "./approveTokens";
 import upgradeTokens from "./upgradeTokens";
 import fUSDCABI from "@/abi/fUSDC_ABI.json";
+import { SUBSCRIPTION_OPTIONS } from "@/constants/subscriptions";
 import sendNotification from "./sendNotification";
 
 export default async function startStream(
+  selectedSubscriptionId: number,
+  selectedPlanId: number,
   months: number,
   amount: number,
   signer: Signer,
@@ -67,11 +70,18 @@ export default async function startStream(
       }
     }
 
+    // Encode the data for the stream
+    const userData = utils.defaultAbiCoder.encode(
+      ["uint256", "uint256", "uint256", "string"],
+      [selectedSubscriptionId, selectedPlanId, months, amount.toString()] // subscriptionId, planId, months, amount
+    );
+
     // Create the stream
     const createFlowOperation = usdcx.createFlow({
       sender: sender,
-      receiver: process.env.NEXT_PUBLIC_RECEIVER_WALLET_ADDRESS || "",
+      receiver: SUBSCRIPTION_OPTIONS[selectedSubscriptionId].receiver,
       flowRate: flowRatePerSec.toString(),
+      userData: userData,
     });
 
     console.log("Creating your stream...");

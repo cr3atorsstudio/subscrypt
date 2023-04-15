@@ -1,5 +1,5 @@
 import { globalStore } from "@/store/global";
-import { Box, Button, Image, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Image, Progress, Text, useToast } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
 import { useRouter } from "next/router";
 import { FC, memo, useEffect, useState } from "react";
@@ -8,16 +8,20 @@ import AppMenu from "../Common/AppMenu";
 import ConnectWalletButton from "../Common/ConnectWalletButton";
 import ConnectWalletModal from "../Common/ConnectWalletModal";
 import { useProvider, useSigner } from "wagmi";
-import { Framework } from "@superfluid-finance/sdk-core";
+import { Framework, IStream } from "@superfluid-finance/sdk-core";
 import getStreams from "@/libs/getStreams";
-import { FaCcVisa } from "react-icons/fa";
 import cancelStream from "@/libs/cancelStream";
+import SubsCryptCard from "../Common/SubsCryptCard";
+import { utils } from "ethers";
+import { SUBSCRIPTION_OPTIONS } from "@/constants/subscriptions";
+import CardInfoModal from "../Common/CardInfoModal";
 
 const inter = Inter({ subsets: ["latin"] });
 const CHAIN_ID = Number(process.env.NEXT_PUBLIC_CHAIN_ID);
 
 const MyPage: FC = () => {
-  const [hasStream, setHasStream] = useState(false);
+  const [streamList, setStreamList] = useState<IStream[]>([]);
+  const [loading, setLoading] = useState(false);
   const setIsProgress = useSetRecoilState(globalStore.isProgress);
   const isConnected = useRecoilValue(globalStore.isConnected);
 
@@ -30,6 +34,7 @@ const MyPage: FC = () => {
     if (!isConnected || !signer || !provider) return;
 
     const getData = async () => {
+      setLoading(true);
       const sf = await Framework.create({
         chainId: CHAIN_ID,
         provider: provider,
@@ -38,9 +43,11 @@ const MyPage: FC = () => {
 
       const response = await getStreams(superSigner, sf);
       console.log(response);
-      if (response) {
-        setHasStream(true);
+      if (!!response) {
+        setStreamList(response);
+        setLoading(false);
       } else {
+        setLoading(false);
         toast({
           title: "Failed.",
           description: "Could not fetch data, please try again.",
@@ -54,7 +61,7 @@ const MyPage: FC = () => {
     getData();
   }, [isConnected, provider, signer, router.asPath, toast]);
 
-  const onCancel = async () => {
+  const onCancel = async (address: string) => {
     console.log("cancel");
     if (!isConnected || !signer || !provider) return;
     setIsProgress(true);
@@ -64,10 +71,9 @@ const MyPage: FC = () => {
     });
     const superSigner = sf.createSigner({ signer: signer });
 
-    const response = await cancelStream(superSigner, sf);
+    const response = await cancelStream(address, superSigner, sf);
     console.log(response);
     if (response) {
-      setHasStream(false);
       toast({
         title: "Success",
         description: "Cancel was successful!",
@@ -135,68 +141,39 @@ const MyPage: FC = () => {
                 </Box>
               </Box>
             )}
-            {isConnected && hasStream && (
-              <Box>
-                <Box
-                  display={"flex"}
-                  flexDirection={"column"}
-                  justifyContent={"flex-end"}
-                  backgroundColor={"#a9b0ff"}
-                  borderRadius="6px"
-                  p="16px"
-                  style={{ aspectRatio: "1.586 / 1" }}
-                >
-                  <Box>
-                    <Text
-                      className={inter.className}
-                      fontSize={"20px"}
-                      pb="10px"
-                      letterSpacing={"0.1rem"}
-                      color={"#fff"}
-                      filter={"drop-shadow(0 0 3px #6085dd)"}
-                    >
-                      4536 4101 1466 2873
-                    </Text>
-                    <Box
-                      display={"flex"}
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                    >
-                      <Text
-                        className={inter.className}
-                        letterSpacing={"1.5px"}
-                        color={"#fff"}
-                        filter={"drop-shadow(0 0 3px #6085dd)"}
-                      >
-                        04/29
-                      </Text>
-                      <Text
-                        className={inter.className}
-                        letterSpacing={"0.1rem"}
-                        color={"#fff"}
-                        filter={"drop-shadow(0 0 3px #6085dd)"}
-                      >
-                        567
-                      </Text>
-                      <FaCcVisa
-                        size={"32px"}
-                        color={"#fff"}
-                        filter={"drop-shadow(0 0 8px #6085dd80)"}
+            {isConnected && (
+              <>
+                {streamList.length > 0 &&
+                  streamList.map((stream, i) => {
+                    const decodeData = utils.defaultAbiCoder.decode(
+                      ["uint256", "uint256", "uint256", "string"],
+                      stream.flowUpdatedEvents[0].userData
+                    );
+                    console.log(decodeData);
+                    const subsc = SUBSCRIPTION_OPTIONS.find(
+                      (option) => option.id === Number(decodeData[0])
+                    );
+                    return (
+                      <SubsCryptCard
+                        key={i}
+                        selectedSubscriptionName={subsc?.name ?? ""}
+                        selectedSubscriptionPlanCost={
+                          subsc?.plan?.[Number(decodeData[1]) - 1].cost ?? 0
+                        }
+                        month={Number(decodeData[2]).toString()}
+                        selectedSubscriptionPlanCostInCrypto={Number(
+                          decodeData[3]
+                        )}
+                        showCancelButton={true}
+                        onCancel={() => {
+                          onCancel(stream.receiver);
+                        }}
                       />
-                    </Box>
-                  </Box>
-                </Box>
-                <Button
-                  width="100%"
-                  colorScheme={"red"}
-                  mt="16px"
-                  onClick={onCancel}
-                >
-                  Cancel
-                </Button>
-              </Box>
+                    );
+                  })}
+              </>
             )}
-            {isConnected && !hasStream && (
+            {isConnected && streamList.length === 0 && (
               <Box
                 border="1px solid #D2D5FB"
                 width="100%"
@@ -225,8 +202,20 @@ const MyPage: FC = () => {
             </Button>
           </Box>
         </Box>
+        {loading && (
+          <Progress
+            position={"fixed"}
+            top={0}
+            left={0}
+            right={0}
+            size="sm"
+            isIndeterminate
+            color="brand"
+          />
+        )}
         <AppMenu />
         <ConnectWalletModal />
+        <CardInfoModal />
       </Box>
     </main>
   );

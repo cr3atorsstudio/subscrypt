@@ -41,9 +41,9 @@ const CardInfoModal: FC = () => {
               fontWeight={600}
               lineHeight={1.2}
             >
-              Use this card <br /> to pay for your subscription
+              Your subscription has been successfully started!
             </Text>
-            <Box
+            {/* <Box
               display={"flex"}
               flexDirection={"column"}
               justifyContent={"flex-end"}
@@ -91,7 +91,7 @@ const CardInfoModal: FC = () => {
                   />
                 </Box>
               </Box>
-            </Box>
+            </Box> */}
           </Box>
         </ModalBody>
         <ModalFooter p="8px 24px 32px">

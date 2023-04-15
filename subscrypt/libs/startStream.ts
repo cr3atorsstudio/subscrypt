@@ -2,6 +2,8 @@ import calculateFlow from "./calculateFlow";
 import { BigNumberish, Signer, ethers, utils } from "ethers";
 import { Framework } from "@superfluid-finance/sdk-core";
 import {
+  ETHER_GOERLI,
+  ETHER_SUPER_GOERLI,
   FAKE_USDC_MUMBAI,
   FAKE_USDC_SUPER_MUMBAI,
 } from "@/constants/contractAddresses";
@@ -10,6 +12,8 @@ import upgradeTokens from "./upgradeTokens";
 import fUSDCABI from "@/abi/fUSDC_ABI.json";
 import { SUBSCRIPTION_OPTIONS } from "@/constants/subscriptions";
 import sendNotification from "./sendNotification";
+
+const CHAIN_ID = Number(process.env.NEXT_PUBLIC_CHAIN_ID);
 
 export default async function startStream(
   selectedSubscriptionId: number,
@@ -20,8 +24,12 @@ export default async function startStream(
   sf: Framework,
   fUSDCx: string
 ): Promise<boolean> {
-  const fusdc = new ethers.Contract(FAKE_USDC_MUMBAI, fUSDCABI, signer);
-  const usdcx = await sf.loadSuperToken("fUSDCx");
+  const fusdc = new ethers.Contract(
+    CHAIN_ID === 5 ? ETHER_GOERLI : FAKE_USDC_MUMBAI,
+    fUSDCABI,
+    signer
+  );
+  const usdcx = await sf.loadSuperToken(CHAIN_ID === 5 ? "ETHx" : "fUSDCx");
   const sender = await signer.getAddress();
 
   // TOOD: Use months and amount from UI input
@@ -34,7 +42,7 @@ export default async function startStream(
     const totalAmountInfUSDC = 5;
     const allowance: BigNumberish = await fusdc.allowance(
       sender,
-      FAKE_USDC_SUPER_MUMBAI
+      CHAIN_ID === 5 ? ETHER_SUPER_GOERLI : FAKE_USDC_SUPER_MUMBAI
     );
 
     const convertedAllowanceInfUSDC = ethers.utils.formatUnits(
@@ -46,7 +54,10 @@ export default async function startStream(
     console.log(convertedAllowanceInfUSDC, "convertedAllowanceInfUSDC");
 
     // Check if the user has approved the fUSDCx contract to spend their fUSDC
-    if (totalAmountInfUSDC > Number(convertedAllowanceInfUSDC)) {
+    if (
+      totalAmountInfUSDC > Number(convertedAllowanceInfUSDC) &&
+      CHAIN_ID !== 5
+    ) {
       const hasApproved = await approveTokens(totalAmountInfUSDC, signer);
 
       console.log(hasApproved, "hasApproved");

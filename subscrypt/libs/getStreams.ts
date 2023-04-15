@@ -5,11 +5,13 @@ import {
   SUBSCRIPTION_RECEIVERS,
 } from "@/constants/subscriptions";
 
+const CHAIN_ID = Number(process.env.NEXT_PUBLIC_CHAIN_ID);
+
 export default async function getStreams(
   signer: Signer,
   sf: Framework
 ): Promise<null | IStream[]> {
-  const usdcx = await sf.loadSuperToken("fUSDCx");
+  const usdcx = await sf.loadSuperToken(CHAIN_ID === 5 ? "ETHx" : "fUSDCx");
   const sender = await signer.getAddress();
 
   try {

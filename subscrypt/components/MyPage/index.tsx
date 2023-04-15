@@ -30,34 +30,33 @@ const MyPage: FC = () => {
   const provider = useProvider();
   const { data: signer } = useSigner();
 
+  const getData = async () => {
+    setLoading(true);
+    const sf = await Framework.create({
+      chainId: CHAIN_ID,
+      provider: provider,
+    });
+    const superSigner = sf.createSigner({ signer: signer });
+
+    const response = await getStreams(superSigner, sf);
+    console.log(response);
+    if (!!response) {
+      setStreamList(response);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      toast({
+        title: "Failed.",
+        description: "Could not fetch data, please try again.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+
   useEffect(() => {
     if (!isConnected || !signer || !provider) return;
-
-    const getData = async () => {
-      setLoading(true);
-      const sf = await Framework.create({
-        chainId: CHAIN_ID,
-        provider: provider,
-      });
-      const superSigner = sf.createSigner({ signer: signer });
-
-      const response = await getStreams(superSigner, sf);
-      console.log(response);
-      if (!!response) {
-        setStreamList(response);
-        setLoading(false);
-      } else {
-        setLoading(false);
-        toast({
-          title: "Failed.",
-          description: "Could not fetch data, please try again.",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-      }
-    };
-
     getData();
   }, [isConnected, provider, signer, router.asPath, toast]);
 
@@ -74,6 +73,7 @@ const MyPage: FC = () => {
     const response = await cancelStream(address, superSigner, sf);
     console.log(response);
     if (response) {
+      getData();
       toast({
         title: "Success",
         description: "Cancel was successful!",

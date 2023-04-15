@@ -2,7 +2,7 @@ import { globalStore } from "@/store/global";
 import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
+  Text,
   IconButton,
   Menu,
   MenuButton,
@@ -18,8 +18,10 @@ import { useDisconnect } from "wagmi";
 import ConnectWalletButton from "../ConnectWalletButton";
 // import { SwapWidget } from "@uniswap/widgets";
 // import "@uniswap/widgets/fonts.css";
-import Davatar, { Image } from "@davatar/react";
-import VerifyButton from "../VerifyButton";
+import Davatar from "@davatar/react";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
 
 const AppMenu: FC = () => {
   const [showSwap, setShowSwap] = useState(false);
@@ -54,7 +56,13 @@ const AppMenu: FC = () => {
           {userAddress !== undefined && (
             <Davatar address={userAddress} size={15} />
           )}
-          {`${userAddress?.slice(0, 3)}...${userAddress?.slice(-4)}`}
+          <Text
+            className={inter.className}
+            fontSize={"14px"}
+            fontWeight={"bold"}
+          >
+            {`${userAddress?.slice(0, 3)}...${userAddress?.slice(-4)}`}
+          </Text>
         </Box>
       )}
       {proof !== "" && userAddress === undefined && (

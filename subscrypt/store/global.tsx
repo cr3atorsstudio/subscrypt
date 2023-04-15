@@ -57,7 +57,7 @@ const GlobalValuesWrapper = ({ children }: Props) => {
   const setIsEth = useSetRecoilState(globalStore.isEth);
 
   useEffect(() => {
-    setIsEth(Number(process.env.NEXT_PUBLIC_CHAIN_ID) === 1);
+    setIsEth(Number(process.env.NEXT_PUBLIC_CHAIN_ID) === 5);
     setUserAddress(address);
     setIsConnected(isConnected);
   }, [address, isConnected, setIsConnected, setIsEth, setUserAddress]);

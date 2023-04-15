@@ -2,12 +2,14 @@ import { Signer } from "ethers";
 import { Framework } from "@superfluid-finance/sdk-core";
 import sendNotification from "./sendNotification";
 
+const CHAIN_ID = Number(process.env.NEXT_PUBLIC_CHAIN_ID);
+
 export default async function cancelStream(
   receiver: string,
   signer: Signer,
   sf: Framework
 ): Promise<boolean> {
-  const usdcx = await sf.loadSuperToken("fUSDCx");
+  const usdcx = await sf.loadSuperToken(CHAIN_ID === 5 ? "ETHx" : "fUSDCx");
   const sender = await signer.getAddress();
 
   try {

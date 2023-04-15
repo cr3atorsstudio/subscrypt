@@ -1,12 +1,14 @@
 import { Framework } from "@superfluid-finance/sdk-core";
 import { Signer, ethers } from "ethers";
 
+const CHAIN_ID = Number(process.env.NEXT_PUBLIC_CHAIN_ID);
+
 export default async function upgradeTokens(
   amount: number,
   signer: Signer,
   sf: Framework
 ): Promise<boolean> {
-  const usdcx = await sf.loadSuperToken("fUSDCx");
+  const usdcx = await sf.loadSuperToken(CHAIN_ID === 5 ? "ETHx" : "fUSDCx");
 
   console.log("amount", Math.ceil(amount));
 
@@ -24,8 +26,8 @@ export default async function upgradeTokens(
 
     console.log(
       `Congrats - you've just upgraded your tokens to an Index!
-         Network: Mumbai
-         Super Token: USDCx
+         Network: ${CHAIN_ID === 5 ? "Goerli" : "Munbai"}
+         Super Token: ${CHAIN_ID === 5 ? "ETHx" : "USDCx"}
          Amount: ${amount}         
       `
     );

@@ -5,14 +5,25 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { ReactNode } from "react";
 
-import { polygonMumbai, polygon } from "@wagmi/chains";
+import { polygonMumbai, polygon, goerli } from "@wagmi/chains";
 
 type Props = {
   children: ReactNode;
 };
 
+const chainId = () => {
+  switch (process.env.NEXT_PUBLIC_CHAIN_ID) {
+    case "5":
+      return goerli;
+    case "137":
+      return polygon;
+    default:
+      return polygonMumbai;
+  }
+};
+
 const { chains, provider, webSocketProvider } = configureChains(
-  [process.env.NEXT_PUBLIC_CHAIN_ID === "137" ? polygon : polygonMumbai],
+  [chainId()],
   [
     infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_API! }),
     publicProvider(),

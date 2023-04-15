@@ -238,17 +238,19 @@ const Top = () => {
             </FormControl>
           </Box>
           <Box width={"100%"} maxW={"480px"} margin={"0 auto"}>
-            {selectedSubscription !== 0 && (
-              <SubsCryptCard
-                selectedSubscriptionName={selectedSubscriptionName}
-                selectedSubscriptionPlanCost={selectedSubscriptionPlanCost}
-                month={month}
-                selectedSubscriptionPlanCostInCrypto={
-                  selectedSubscriptionPlanCostInCrypto
-                }
-                showCancelButton={false}
-              />
-            )}
+            <Box mb="16px">
+              {selectedSubscription !== 0 && (
+                <SubsCryptCard
+                  selectedSubscriptionName={selectedSubscriptionName}
+                  selectedSubscriptionPlanCost={selectedSubscriptionPlanCost}
+                  month={month}
+                  selectedSubscriptionPlanCostInCrypto={
+                    selectedSubscriptionPlanCostInCrypto
+                  }
+                  showCancelButton={false}
+                />
+              )}
+            </Box>
             {isConnected && proof !== "" && (
               <Button
                 colorScheme="brand"

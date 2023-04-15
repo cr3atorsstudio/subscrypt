@@ -69,7 +69,7 @@ const ConnectWalletModal: FC = () => {
                     " (connecting)"}
                 </Button>
               ))}
-              {isMobile && isNotMetamask && (
+              {isMobile && (
                 <Box>
                   <p style={{ textAlign: "center", marginBottom: 16 }}>or</p>
                   <Button

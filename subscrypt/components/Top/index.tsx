@@ -184,6 +184,8 @@ const Top = () => {
             <Image src="/logo.png" alt="SubsCrypt" width={"185px"} />
           </h1>
           <Box
+            width={"100%"}
+            maxW={"480px"}
             minWidth="340px"
             display="flex"
             gap="24px"
@@ -235,29 +237,31 @@ const Top = () => {
               </RadioGroup>
             </FormControl>
           </Box>
-          {selectedSubscription !== 0 && (
-            <SubsCryptCard
-              selectedSubscriptionName={selectedSubscriptionName}
-              selectedSubscriptionPlanCost={selectedSubscriptionPlanCost}
-              month={month}
-              selectedSubscriptionPlanCostInCrypto={
-                selectedSubscriptionPlanCostInCrypto
-              }
-              showCancelButton={false}
-            />
-          )}
-          {isConnected && proof !== "" && (
-            <Button
-              colorScheme="brand"
-              width="100%"
-              isDisabled={selectedSubscription === 0}
-              onClick={handlePayButtonClick}
-            >
-              {`Pay for ${isEth ? "ETH" : "USDC"}`}
-            </Button>
-          )}
-          {!isConnected && proof !== "" && <ConnectWalletButton />}
-          {proof === "" && <VerifyButton />}
+          <Box width={"100%"} maxW={"480px"} margin={"0 auto"}>
+            {selectedSubscription !== 0 && (
+              <SubsCryptCard
+                selectedSubscriptionName={selectedSubscriptionName}
+                selectedSubscriptionPlanCost={selectedSubscriptionPlanCost}
+                month={month}
+                selectedSubscriptionPlanCostInCrypto={
+                  selectedSubscriptionPlanCostInCrypto
+                }
+                showCancelButton={false}
+              />
+            )}
+            {isConnected && proof !== "" && (
+              <Button
+                colorScheme="brand"
+                width="100%"
+                isDisabled={selectedSubscription === 0}
+                onClick={handlePayButtonClick}
+              >
+                {`Pay for ${isEth ? "ETH" : "USDC"}`}
+              </Button>
+            )}
+            {!isConnected && proof !== "" && <ConnectWalletButton />}
+            {proof === "" && <VerifyButton />}
+          </Box>
         </Box>
         <AppMenu />
         <ConnectWalletModal />

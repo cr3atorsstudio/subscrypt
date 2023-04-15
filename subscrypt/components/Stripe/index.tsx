@@ -18,7 +18,6 @@ const inter = Inter({ subsets: ["latin"] });
 const Stripe: FC = () => {
   const [address, setAddress] = useState("");
 
-  console.log(address);
   const fundWallet = async () => {
     const safeOnRamp = await SafeOnRampKit.init(SafeOnRampProviderType.Stripe, {
       onRampProviderConfig: {

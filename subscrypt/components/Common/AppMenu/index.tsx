@@ -1,10 +1,13 @@
 import { globalStore } from "@/store/global";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
+  IconButton,
   Menu,
   MenuButton,
+  MenuDivider,
+  MenuGroup,
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
@@ -16,28 +19,61 @@ import ConnectWalletButton from "../ConnectWalletButton";
 // import { SwapWidget } from "@uniswap/widgets";
 // import "@uniswap/widgets/fonts.css";
 import Davatar, { Image } from "@davatar/react";
+import VerifyButton from "../VerifyButton";
 
 const AppMenu: FC = () => {
   const [showSwap, setShowSwap] = useState(false);
 
   const router = useRouter();
-  const isConnected = useRecoilValue(globalStore.isConnected);
+  const proof = useRecoilValue(globalStore.proof);
   const userAddress = useRecoilValue(globalStore.userAddress);
 
   const { disconnect } = useDisconnect();
 
-  return isConnected ? (
-    <Box position="fixed" top={["8px", "30px"]} right={["8px", "30px"]}>
+  const openSwap = useCallback(() => {
+    setShowSwap(!showSwap);
+  }, [showSwap]);
+
+  return (
+    <Box
+      display={"flex"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      position="fixed"
+      top={["8px", "30px"]}
+      right={["8px", "30px"]}
+      gap={"8px"}
+    >
+      {proof !== "" && userAddress !== undefined && (
+        <Box
+          display="inline-flex"
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          gap="8px"
+        >
+          {userAddress !== undefined && (
+            <Davatar address={userAddress} size={15} />
+          )}
+          {`${userAddress?.slice(0, 3)}...${userAddress?.slice(-4)}`}
+        </Box>
+      )}
+      {proof !== "" && userAddress === undefined && (
+        <ConnectWalletButton isMenu />
+      )}
+      {/* <div className="Uniswap">
+        <SwapWidget />
+      </div> */}
       <Menu>
         <MenuButton
-          as={Button}
-          rightIcon={<ChevronDownIcon />}
-          size="xs"
+          as={IconButton}
+          aria-label="Options"
+          icon={<HamburgerIcon />}
+          variant="outline"
+          size="sm"
           borderRadius="3px"
           backgroundColor="#fff"
           color="#1E1E1E"
           border="1px solid #dcdcdc"
-          paddingTop="2px"
           _hover={{
             backgroundColor: "#fff",
             cursor: "pointer",
@@ -45,36 +81,28 @@ const AppMenu: FC = () => {
           _active={{
             backgroundColor: "#fff",
           }}
-        >
-          <Box
-            display="inline-flex"
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            gap="8px"
-          >
-            {userAddress !== undefined && (
-              <Davatar address={userAddress} size={15} />
-            )}
-            {`${userAddress?.slice(0, 3)}...${userAddress?.slice(-4)}`}
-          </Box>
-        </MenuButton>
+        ></MenuButton>
         <MenuList>
-          <MenuItem onClick={() => router.push("/")}>Register</MenuItem>
-          <MenuItem onClick={() => router.push("/my-page")}>My Page</MenuItem>
-          <MenuItem onClick={() => router.push("/stripe")}>
-            Buy Cryptocurrency
-          </MenuItem>
-          <MenuItem onClick={() => disconnect()}>Disconnect</MenuItem>
-          <MenuItem disabled>Swap(Coming soon)</MenuItem>
+          <MenuGroup>
+            <MenuItem onClick={() => router.push("/")}>Register</MenuItem>
+            <MenuItem onClick={() => router.push("/my-page")}>My Page</MenuItem>
+            <MenuItem onClick={() => router.push("/stripe")}>
+              Buy Cryptocurrency
+            </MenuItem>
+            <MenuItem isDisabled onClick={openSwap}>
+              Swap - coming soon
+            </MenuItem>
+          </MenuGroup>
+          {userAddress !== undefined && (
+            <>
+              <MenuDivider />
+              <MenuGroup>
+                <MenuItem onClick={() => disconnect()}>Disconnect</MenuItem>
+              </MenuGroup>
+            </>
+          )}
         </MenuList>
       </Menu>
-    </Box>
-  ) : (
-    <Box position="fixed" top={["16px", "30px"]} right={["16px", "30px"]}>
-      <ConnectWalletButton isMenu />
-      {/* <div className="Uniswap">
-        <SwapWidget />
-      </div> */}
     </Box>
   );
 };

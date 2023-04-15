@@ -73,7 +73,6 @@ const MyPage: FC = () => {
     const response = await cancelStream(address, superSigner, sf);
     console.log(response);
     if (response) {
-      getData();
       toast({
         title: "Success",
         description: "Cancel was successful!",
@@ -81,6 +80,9 @@ const MyPage: FC = () => {
         duration: 9000,
         isClosable: true,
       });
+      setTimeout(() => {
+        getData();
+      }, 300);
     } else {
       toast({
         title: "Failed.",

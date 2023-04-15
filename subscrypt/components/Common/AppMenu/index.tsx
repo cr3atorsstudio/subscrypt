@@ -9,19 +9,26 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { FC, memo } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { useDisconnect } from "wagmi";
 import ConnectWalletButton from "../ConnectWalletButton";
-
+// import { SwapWidget } from "@uniswap/widgets";
+// import "@uniswap/widgets/fonts.css";
 import Davatar, { Image } from "@davatar/react";
 
 const AppMenu: FC = () => {
+  const [showSwap, setShowSwap] = useState(false);
+
   const router = useRouter();
   const isConnected = useRecoilValue(globalStore.isConnected);
   const userAddress = useRecoilValue(globalStore.userAddress);
 
   const { disconnect } = useDisconnect();
+
+  const openSwap = useCallback(() => {
+    setShowSwap(!showSwap);
+  }, [showSwap]);
 
   return isConnected ? (
     <Box position="fixed" top={["8px", "30px"]} right={["8px", "30px"]}>
@@ -62,12 +69,16 @@ const AppMenu: FC = () => {
             Buy Cryptocurrency
           </MenuItem>
           <MenuItem onClick={() => disconnect()}>Disconnect</MenuItem>
+          <MenuItem onClick={openSwap}>Swap</MenuItem>
         </MenuList>
       </Menu>
     </Box>
   ) : (
     <Box position="fixed" top={["16px", "30px"]} right={["16px", "30px"]}>
       <ConnectWalletButton isMenu />
+      {/* <div className="Uniswap">
+        <SwapWidget />
+      </div> */}
     </Box>
   );
 };

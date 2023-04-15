@@ -12,8 +12,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
-import { memo, useCallback, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { memo, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   useAccount,
   useBalance,
@@ -33,9 +33,9 @@ import {
   FAKE_USDC_SUPER_MUMBAI,
   FAKE_USDC_MUMBAI,
 } from "@/constants/contractAddresses";
-import sendNotification from "@/libs/sendNotification";
 import { SUBSCRIPTION_OPTIONS } from "@/constants/subscriptions";
 import CardInfoModal from "../Common/CardInfoModal";
+import VerifyButton from "../Common/VerifyButton";
 
 const inter = Inter({ subsets: ["latin"] });
 const CHAIN_ID = Number(process.env.NEXT_PUBLIC_CHAIN_ID);
@@ -44,6 +44,8 @@ const Top = () => {
   const isConnected = useRecoilValue(globalStore.isConnected);
   const ethPriceByUsd = useRecoilValue(globalStore.ethPriceByUsd);
   const isEth = useRecoilValue(globalStore.isEth);
+  const proof = useRecoilValue(globalStore.proof);
+
   const setIsConfirmModalOpen = useSetRecoilState(
     globalStore.isConfirmModalOpen
   );
@@ -244,7 +246,7 @@ const Top = () => {
               showCancelButton={false}
             />
           )}
-          {isConnected ? (
+          {isConnected && proof !== "" && (
             <Button
               colorScheme="brand"
               width="100%"
@@ -253,9 +255,9 @@ const Top = () => {
             >
               {`Pay for ${isEth ? "ETH" : "USDC"}`}
             </Button>
-          ) : (
-            <ConnectWalletButton />
           )}
+          {!isConnected && proof !== "" && <ConnectWalletButton />}
+          {proof === "" && <VerifyButton />}
         </Box>
         <AppMenu />
         <ConnectWalletModal />

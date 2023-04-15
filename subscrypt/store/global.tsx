@@ -40,6 +40,11 @@ export const globalStore = {
     key: "global/isEth",
     default: false,
   }),
+  isVerifyModalOpen: atom<boolean>({
+    key: "global/isVerifyModalOpen",
+    default: false,
+  }),
+  proof: atom<string>({ key: "global/proof", default: "" }),
 };
 
 const GlobalValuesWrapper = ({ children }: Props) => {

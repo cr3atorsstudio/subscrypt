@@ -61,9 +61,6 @@ const AppMenu: FC = () => {
         <MenuList>
           <MenuItem onClick={() => router.push("/")}>Register</MenuItem>
           <MenuItem onClick={() => router.push("/my-page")}>My Page</MenuItem>
-          <MenuItem onClick={() => router.push("/stripe")}>
-            Buy Cryptocurrency
-          </MenuItem>
           <MenuItem onClick={() => disconnect()}>Disconnect</MenuItem>
           <MenuItem disabled>Swap(Coming soon)</MenuItem>
         </MenuList>

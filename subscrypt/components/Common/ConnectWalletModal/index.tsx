@@ -29,6 +29,14 @@ const ConnectWalletModal: FC = () => {
     setIsWalletConnectModalOpen(false);
   };
 
+  // @ts-ignore
+  useEffect(() => {
+    if (!window.ethereum) {
+      console.log("No Metamask");
+      return null;
+    }
+  }, []);
+
   return (
     <>
       <Modal
@@ -55,7 +63,7 @@ const ConnectWalletModal: FC = () => {
                   }}
                 >
                   {connector.name}
-                  {/* {!connector.ready && " (unsupported)"} */}
+                  {!connector.ready && " (unsupported)"}
                   {isLoading &&
                     connector.id === pendingConnector?.id &&
                     " (connecting)"}

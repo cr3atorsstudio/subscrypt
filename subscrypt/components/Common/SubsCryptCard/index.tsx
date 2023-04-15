@@ -2,7 +2,7 @@ import { globalStore } from "@/store/global";
 import { Box, Button, Text } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
 import { FC, memo } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 interface SubsCryptCardProps {
   selectedSubscriptionName: string;
@@ -24,6 +24,9 @@ const SubsCryptCard: FC<SubsCryptCardProps> = (props) => {
     showCancelButton = false,
     onCancel,
   } = props;
+  const setIsCardInfoModalOpen = useSetRecoilState(
+    globalStore.isCardInfoModalOpen
+  );
   const isEth = useRecoilValue(globalStore.isEth);
   return (
     <Box
@@ -74,15 +77,32 @@ const SubsCryptCard: FC<SubsCryptCardProps> = (props) => {
         </Box>
       )}
       {showCancelButton && (
-        <Button
-          width="100%"
-          colorScheme={"red"}
-          variant="outline"
+        <Box
           mt="16px"
-          onClick={onCancel}
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          gap={"8px"}
         >
-          Cancel
-        </Button>
+          <Button
+            width="100%"
+            colorScheme={"brand"}
+            variant={"solid"}
+            onClick={() => {
+              setIsCardInfoModalOpen(true);
+            }}
+          >
+            Card Info
+          </Button>
+          <Button
+            width="100%"
+            colorScheme={"red"}
+            variant="solid"
+            onClick={onCancel}
+          >
+            Cancel
+          </Button>
+        </Box>
       )}
     </Box>
   );

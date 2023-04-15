@@ -121,10 +121,10 @@ const Top = () => {
       const superSigner = sf.createSigner({ signer: signer });
 
       const response = await startStream(
+        Number(selectedSubscription),
+        Number(plan),
         Number(month),
-        selectedSubscriptionHasPlan[
-          selectedSubscriptionHasPlan.findIndex((option) => option.id === plan)
-        ].cost,
+        selectedSubscriptionPlanCostInCrypto,
         superSigner,
         sf,
         fUSDCx?.formatted || "0"

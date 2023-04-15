@@ -94,11 +94,11 @@ const AppMenu: FC = () => {
           <MenuGroup>
             <MenuItem onClick={() => router.push("/")}>Register</MenuItem>
             <MenuItem onClick={() => router.push("/my-page")}>My Page</MenuItem>
-            <MenuItem onClick={() => router.push("/stripe")}>
-              Buy Cryptocurrency
-            </MenuItem>
             <MenuItem isDisabled onClick={openSwap}>
               Swap - coming soon
+            </MenuItem>
+            <MenuItem isDisabled onClick={openSwap}>
+              Register your subscription - coming soon
             </MenuItem>
           </MenuGroup>
           {userAddress !== undefined && (

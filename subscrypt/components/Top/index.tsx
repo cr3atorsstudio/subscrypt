@@ -44,7 +44,6 @@ const CHAIN_ID = Number(process.env.NEXT_PUBLIC_CHAIN_ID);
 
 const Top = () => {
   const isConnected = useRecoilValue(globalStore.isConnected);
-  const ethPriceByUsd = useRecoilValue(globalStore.ethPriceByUsd);
   const isEth = useRecoilValue(globalStore.isEth);
   const proof = useRecoilValue(globalStore.proof);
 
@@ -102,8 +101,7 @@ const Top = () => {
       : selectedSubscriptionHasPlan[
           selectedSubscriptionHasPlan.findIndex((option) => option.id === plan)
         ].cost;
-  const selectedSubscriptionPlanCostInCrypto =
-    selectedSubscriptionPlanCost / (isEth ? ethPriceByUsd : 1);
+  const selectedSubscriptionPlanCostInCrypto = selectedSubscriptionPlanCost;
 
   const handlePayButtonClick = () => {
     setIsConfirmModalOpen(true);

@@ -32,10 +32,6 @@ export const globalStore = {
     key: "global/isProgress",
     default: false,
   }),
-  ethPriceByUsd: atom<number>({
-    key: "global/ethPriceByUsd",
-    default: 0,
-  }),
   isEth: atom<boolean>({
     key: "global/isEth",
     default: false,
@@ -52,7 +48,6 @@ const GlobalValuesWrapper = ({ children }: Props) => {
 
   const setUserAddress = useSetRecoilState(globalStore.userAddress);
   const setIsConnected = useSetRecoilState(globalStore.isConnected);
-  const setEthPriceByUsd = useSetRecoilState(globalStore.ethPriceByUsd);
 
   const setIsEth = useSetRecoilState(globalStore.isEth);
 
@@ -61,22 +56,6 @@ const GlobalValuesWrapper = ({ children }: Props) => {
     setUserAddress(address);
     setIsConnected(isConnected);
   }, [address, isConnected, setIsConnected, setIsEth, setUserAddress]);
-
-  useEffect(() => {
-    // TODO: あとでNumber(process.env.NEXT_PUBLIC_CHAIN_ID) === 1かどうかでリクエストを投げるか判断するようにする
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD"
-        );
-        setEthPriceByUsd(response.data.USD);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   return children;
 };

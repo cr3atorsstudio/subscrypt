@@ -2,7 +2,7 @@ import { globalStore } from "@/store/global";
 import { Box, Button, Text } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
 import { FC, memo } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 interface SubsCryptCardProps {
   selectedSubscriptionName: string;
@@ -84,16 +84,6 @@ const SubsCryptCard: FC<SubsCryptCardProps> = (props) => {
           alignItems={"center"}
           gap={"8px"}
         >
-          <Button
-            width="100%"
-            colorScheme={"brand"}
-            variant={"solid"}
-            onClick={() => {
-              setIsCardInfoModalOpen(true);
-            }}
-          >
-            Card Info
-          </Button>
           <Button
             width="100%"
             colorScheme={"red"}

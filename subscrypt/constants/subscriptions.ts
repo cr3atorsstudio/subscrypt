@@ -1,4 +1,4 @@
-const NETFLIX_PLAN = [
+const MUSIC_CREATOR = [
   {
     id: 1,
     name: "6.99 USD",
@@ -24,7 +24,7 @@ const NETFLIX_PLAN = [
     currency: "USD",
   },
 ];
-const SPOTIFY_PLAN = [
+const ORG_XYZ = [
   {
     id: 1,
     name: "9.99 USD",
@@ -50,7 +50,7 @@ const SPOTIFY_PLAN = [
     currency: "USD",
   },
 ];
-const HULU_PLAN = [
+const GAME_STREAMER = [
   {
     id: 1,
     name: "7.99 USD",
@@ -64,7 +64,7 @@ const HULU_PLAN = [
     currency: "USD",
   },
 ];
-const DISNEY_PLUS_PLAN = [
+const MAGAZINE = [
   {
     id: 1,
     name: "7.99 USD",
@@ -78,7 +78,7 @@ const DISNEY_PLUS_PLAN = [
     currency: "USD",
   },
 ];
-const YOU_TUBE_PLAN = [
+const FITNESS_WELLNESS = [
   {
     id: 1,
     name: "11.99 USD",
@@ -98,7 +98,7 @@ const YOU_TUBE_PLAN = [
     currency: "USD",
   },
 ];
-const AUDIBLE_PLAN = [
+const PRODUCTIVITY = [
   {
     id: 1,
     name: "7.95 USD",
@@ -112,7 +112,7 @@ const AUDIBLE_PLAN = [
     currency: "USD",
   },
 ];
-const AMAZON_PLAN = [
+const ONLINE_LEARNING = [
   {
     id: 1,
     name: "14.99 USD",
@@ -126,7 +126,7 @@ const AMAZON_PLAN = [
     currency: "USD",
   },
 ];
-const ONE_PASSWORD_PLAN = [
+const PERSONAL_YOGA = [
   {
     id: 1,
     name: "2.99 USD",
@@ -140,7 +140,7 @@ const ONE_PASSWORD_PLAN = [
     currency: "USD",
   },
 ];
-const ESPN_PLUS_PLAN = [
+const CLOUD_STORAGE = [
   {
     id: 1,
     name: "9.99 USD",
@@ -148,7 +148,7 @@ const ESPN_PLUS_PLAN = [
     currency: "USD",
   },
 ];
-const NOTION_PLAN = [
+const FLOWER = [
   {
     id: 1,
     name: "8 USD",
@@ -166,62 +166,62 @@ const NOTION_PLAN = [
 export const SUBSCRIPTION_OPTIONS = [
   {
     id: 1,
-    name: "Netflix",
-    plan: NETFLIX_PLAN,
+    name: "Music Creator Mike",
+    plan: MUSIC_CREATOR,
     receiver: "0xB160242ccd7b61b3e351a28FA4ec1593C057ed18",
   },
   {
     id: 2,
-    name: "Spotify",
-    plan: SPOTIFY_PLAN,
+    name: "Organization XYZ",
+    plan: ORG_XYZ,
     receiver: "0xEaEADD3ca34fD7699C228FbB15eD2c05DE945B00",
   },
   {
     id: 3,
-    name: "Hulu",
-    plan: HULU_PLAN,
+    name: "Game Streamer Junko",
+    plan: GAME_STREAMER,
     receiver: "0x62E3fC6168D13c1E7A820D2C293fC48c5e9999BC",
   },
   {
     id: 4,
-    name: "Disney+",
-    plan: DISNEY_PLUS_PLAN,
+    name: "Magazine subscription",
+    plan: MAGAZINE,
     receiver: "0xb677176d6113c71EDB3Fe17114E914a1de8b0819",
   },
   {
     id: 5,
-    name: "YouTube",
-    plan: YOU_TUBE_PLAN,
+    name: "Fitness and wellness subscription",
+    plan: FITNESS_WELLNESS,
     receiver: "0xe394D420537679073B5af90D120E861Cdd46012B",
   },
   {
     id: 6,
-    name: "Audible",
-    plan: AUDIBLE_PLAN,
+    name: "Productivity tool subscription",
+    plan: PRODUCTIVITY,
     receiver: "0x3b63cF410B8fb0B17588BD51505fb0Ef64Bd6F3f",
   },
   {
     id: 7,
-    name: "Amazon",
-    plan: AMAZON_PLAN,
+    name: "Online learning platform subscription",
+    plan: ONLINE_LEARNING,
     receiver: "0x30d3C088FB6e1f3C8e54417Cb385AefdAb39cA3c",
   },
   {
     id: 8,
-    name: "1Password",
-    plan: ONE_PASSWORD_PLAN,
+    name: "Personal yoga subscription",
+    plan: PERSONAL_YOGA,
     receiver: "0xB608fDD05D6817bF2acd4E08b7bCe9a6bC05B7Fa",
   },
   {
     id: 9,
-    name: "ESPN+",
-    plan: ESPN_PLUS_PLAN,
+    name: "Cloud storage subscription",
+    plan: CLOUD_STORAGE,
     receiver: "0x7588Bd8CFB66A58C75c6cc5da9f42BbD43980913",
   },
   {
     id: 10,
-    name: "Notion",
-    plan: NOTION_PLAN,
+    name: "Flower shop subscription",
+    plan: FLOWER,
     receiver: "0xEbAD23F8AB1154AB36Cc5D3f9Bad7558081a09b0",
   },
 ];

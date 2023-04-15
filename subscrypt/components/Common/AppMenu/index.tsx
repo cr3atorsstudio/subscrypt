@@ -26,10 +26,6 @@ const AppMenu: FC = () => {
 
   const { disconnect } = useDisconnect();
 
-  const openSwap = useCallback(() => {
-    setShowSwap(!showSwap);
-  }, [showSwap]);
-
   return isConnected ? (
     <Box position="fixed" top={["8px", "30px"]} right={["8px", "30px"]}>
       <Menu>
@@ -69,7 +65,7 @@ const AppMenu: FC = () => {
             Buy Cryptocurrency
           </MenuItem>
           <MenuItem onClick={() => disconnect()}>Disconnect</MenuItem>
-          <MenuItem onClick={openSwap}>Swap</MenuItem>
+          <MenuItem disabled>Swap(Coming soon)</MenuItem>
         </MenuList>
       </Menu>
     </Box>

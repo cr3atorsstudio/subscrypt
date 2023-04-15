@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Box,
   Button,
@@ -8,7 +9,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
-// @ts-ignore
 import { SafeOnRampKit, SafeOnRampProviderType } from "@safe-global/onramp-kit";
 import { FC, memo, useState } from "react";
 import AppMenu from "../Common/AppMenu";
@@ -20,7 +20,6 @@ const Stripe: FC = () => {
 
   console.log(address);
   const fundWallet = async () => {
-    // @ts-ignore
     const safeOnRamp = await SafeOnRampKit.init(SafeOnRampProviderType.Stripe, {
       onRampProviderConfig: {
         // Get public key from Stripe: https://dashboard.stripe.com/register

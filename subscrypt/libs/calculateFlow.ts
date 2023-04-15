@@ -1,12 +1,9 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
 export default function calculateFlow(months: number, amount: string): number {
-  if (months === 0) {
-    return 0;
-  }
-  const amountInWei = ethers.BigNumber.from(amount);
+  const weiAmount = BigNumber.from(amount).mul(BigNumber.from(10).pow(18));
+  const secondsPerPeriod = months * 30 * 24 * 60 * 60;
+  const flowRate = weiAmount.div(BigNumber.from(secondsPerPeriod));
 
-  const calculatedFlowRate = (amountInWei.toNumber() * 3600 * 24 * 30) / months;
-
-  return calculatedFlowRate;
+  return flowRate.toNumber();
 }

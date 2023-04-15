@@ -35,11 +35,10 @@ export default async function startStream(
   // TOOD: Use months and amount from UI input
   // const flowRatePerSec = calculateFlow(months, amount.toString());
   const flowRatePerSec = calculateFlow(1, "1");
+  console.log(flowRatePerSec, "flowRatePerSec");
 
   try {
-    // TOOD: Use months and amount from UI input
-    // const totalAmountInfUSDC = amount * months;
-    const totalAmountInfUSDC = 5;
+    const totalAmountInfUSDC = amount * months;
     const allowance: BigNumberish = await fusdc.allowance(
       sender,
       CHAIN_ID === 5 ? ETHER_SUPER_GOERLI : FAKE_USDC_SUPER_MUMBAI
@@ -66,8 +65,6 @@ export default async function startStream(
         return false;
       }
     }
-
-    console.log(flowRatePerSec, "flowRatePerSec");
 
     console.log(Number(fUSDCx), totalAmountInfUSDC, "amounts");
 

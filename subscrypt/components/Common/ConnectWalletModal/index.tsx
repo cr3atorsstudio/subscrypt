@@ -55,7 +55,7 @@ const ConnectWalletModal: FC = () => {
                   }}
                 >
                   {connector.name}
-                  {!connector.ready && " (unsupported)"}
+                  {/* {!connector.ready && " (unsupported)"} */}
                   {isLoading &&
                     connector.id === pendingConnector?.id &&
                     " (connecting)"}

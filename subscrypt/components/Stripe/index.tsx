@@ -20,6 +20,7 @@ const Stripe: FC = () => {
 
   console.log(address);
   const fundWallet = async () => {
+    // @ts-ignore
     const safeOnRamp = await SafeOnRampKit.init(SafeOnRampProviderType.Stripe, {
       onRampProviderConfig: {
         // Get public key from Stripe: https://dashboard.stripe.com/register

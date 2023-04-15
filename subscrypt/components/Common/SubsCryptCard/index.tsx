@@ -49,7 +49,7 @@ const SubsCryptCard: FC<SubsCryptCardProps> = (props) => {
             </Text>
             × {month}
             <Text as="span" fontSize="12px" pl="4px">
-              months
+              {month === "1" ? "month" : "months"}
             </Text>
           </Text>
         </Box>

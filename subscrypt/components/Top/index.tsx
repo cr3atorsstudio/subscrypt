@@ -54,7 +54,7 @@ const Top = () => {
   );
   const setIsProgress = useSetRecoilState(globalStore.isProgress);
 
-  const [month, setMonth] = useState("6");
+  const [month, setMonth] = useState("1");
   const [selectedSubscription, setSelectedSubscription] = useState(0);
   const [plan, setPlan] = useState(1);
 
@@ -231,6 +231,7 @@ const Top = () => {
               </FormLabel>
               <RadioGroup onChange={setMonth} value={month}>
                 <Stack direction="row">
+                  <Radio value="1">1 month</Radio>
                   <Radio value="6">6 months</Radio>
                   <Radio value="12">12 months</Radio>
                 </Stack>
